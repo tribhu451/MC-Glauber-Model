@@ -2,51 +2,60 @@
 
 using namespace std;
 
+
+nPart_nColl::nPart_nColl(int aa,int ab, double ac,double anpp, double aX_hard)
+{
+  A=aa;B=ab;sigma=ac;npp=anpp;X_hard=aX_hard;
+}
+
+nPart_nColl::~nPart_nColl(){};
+
 void nPart_nColl::Calculate_nPart_nColl(double* vxA,double* vyA,double* vxB,double* vyB)
-     {
-       
-       aN_coll=0;
-       aN_part=0;
-       for(int k=2; k<=6; k++){PhiN[k]=0.0; eccentricity[k]=0.0;
-       }
-       
-       for(int i=0;i<A;i++){occA[i]=0;}
-       for(int i=0;i<B;i++){occB[i]=0;}
-       
-       for (int i=0; i<A; i++)
-	 {
-	   for (int j=0; j<B; j++)
-	      {  
-		double d=TMath::Sqrt( TMath::Power((vxB[j]-vxA[i]),2) + 
-				      TMath::Power ( (vyB[j]-vyA[i]),2));
-		double D=TMath::Sqrt(sigma/ (TMath::Pi())); 
-	   
-		if( d <= D)
-		  { 
-		    
-		    aN_coll=aN_coll+1;
-		    Ncoll_x[aN_coll]=(vxA[i]+vxB[j])/2;
-		    Ncoll_y[aN_coll]=(vyA[i]+vyB[j])/2;
-		    
-		    if(occA[i]==0)
-		      { //START1
-			aN_part=aN_part+1;occA[i]=1;Npart_x[aN_part]=vxA[i]; Npart_y[aN_part]=vyA[i];
-		      } //END1
-		    
-                    
-		    if(occB[j]==0)
-		      {//START2
-			aN_part=aN_part+1;occB[j]=1;Npart_x[aN_part]=vxB[j]; Npart_y[aN_part]=vyB[j];
-		      }//END2
-		    
-		    
-		  }                                                           //End of if loop
-	      }                                                          //End of j loop
-	 }                                                         //End of i loop
-       
+{
+  
+  aN_coll=0;
+  aN_part=0;
+  for(int k=2; k<=6; k++)
+    {
+      PhiN[k]=0.0; eccentricity[k]=0.0;
+    }
+  
+  for(int i=0;i<A;i++){occA[i]=0;}
+  for(int i=0;i<B;i++){occB[i]=0;}
+  
+  for (int i=0; i<A; i++)
+    {
+      for (int j=0; j<B; j++)
+	{  
+	  double d=TMath::Sqrt( TMath::Power((vxB[j]-vxA[i]),2) + TMath::Power ( (vyB[j]-vyA[i]),2));
+	  double D=TMath::Sqrt(sigma/ (TMath::Pi())); 
+	  
+	  if( d <= D)
+	    { 
+	      
+	      aN_coll=aN_coll+1;
+	      Ncoll_x[aN_coll]=(vxA[i]+vxB[j])/2;
+	      Ncoll_y[aN_coll]=(vyA[i]+vyB[j])/2;
+	      
+	      if(occA[i]==0)
+		{
+		  aN_part=aN_part+1;occA[i]=1;Npart_x[aN_part]=vxA[i]; Npart_y[aN_part]=vyA[i];
+		}
+	      
+	      
+	      if(occB[j]==0)
+		{
+		  aN_part=aN_part+1;occB[j]=1;Npart_x[aN_part]=vxB[j]; Npart_y[aN_part]=vyB[j];
+		}
+	      
+	      
+	    }                                                           
+	}                                                        
+    }                                                      
+  
        
        if(aN_part != 0 )
-	 {  //IF 1
+	 { 
 	   
 	   //############shifting the energy distributions center to (0,0,0)#################//
 	   double xref1=0.0;
@@ -132,7 +141,7 @@ void nPart_nColl::Calculate_nPart_nColl(double* vxA,double* vyA,double* vxB,doub
 	       PhiN[N]=((TMath::ATan2(R1,R2)))/ (N);
 	       
 	       
-	     } //N-loop end
+	     }
 	   
 	 }
        else
@@ -141,13 +150,14 @@ void nPart_nColl::Calculate_nPart_nColl(double* vxA,double* vyA,double* vxB,doub
 	     {
 	       eccentricity[g]=0.0;PhiN[g]=0.0;
 	     }
-	 }  //ENDIF 1
+	 }
        
      }
 
 
 double nPart_nColl::Get_Npart(){return aN_part;}
 double nPart_nColl::Get_Ncoll(){return aN_coll;}
+double nPart_nColl::Get_Multiplicity(){return ((0.5)*(X_hard)*(0.87)*aN_part)+((npp)*(X_hard)*aN_coll);}
 double nPart_nColl::Get_Eccentricity2(){return eccentricity[2];}
 double nPart_nColl::Get_PhiN2(){return PhiN[2];}
 double nPart_nColl::Get_Eccentricity3(){return eccentricity[3];}
@@ -158,7 +168,7 @@ double nPart_nColl::Get_Eccentricity5(){return eccentricity[5];}
 double nPart_nColl::Get_PhiN5(){return PhiN[5];}
 double nPart_nColl::Get_Eccentricity6(){return eccentricity[6];}
 double nPart_nColl::Get_PhiN6(){return PhiN[6];}
-void nPart_nColl::Set_Datas(int aa,int ab, double ac,double anpp, double aX_hard){A=aa;B=ab;sigma=ac;npp=anpp;X_hard=aX_hard;}
+
 
 
 

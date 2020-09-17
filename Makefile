@@ -31,7 +31,7 @@ SRC        =  main.cpp Nucleus.cpp nPart_nColl.cpp
 
 OBJS       = $(patsubst %.cpp,$(objdir)/%.o,$(SRC)) 
               
-TARGET	   = Glauber
+TARGET	   = mc_glauber
 #------------------------------------------------------------------------------
 $(TARGET):       $(OBJS)
 		$(LD)  $(LDFLAGS) $^ -o $@ $(LIBS)

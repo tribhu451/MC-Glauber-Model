@@ -6,11 +6,13 @@ using namespace std;
 class nPart_nColl
    {
 
-   public:     
+   public: 
+     nPart_nColl(int aa,int ab, double ac,double anpp, double aX_hard);
+     ~nPart_nColl();    
      void Calculate_nPart_nColl(double* ,double* ,double* ,double*);
-     void Set_Datas(int , int , double , double , double);
      double Get_Npart();
      double Get_Ncoll();
+     double Get_Multiplicity();
      double Get_Eccentricity2();
      double Get_PhiN2();
      double Get_Eccentricity3();

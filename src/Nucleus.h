@@ -11,13 +11,12 @@ class Nucleus
   {
 
   public:
-    Nucleus();
+    Nucleus(int ,int,double,double,double,double);
     ~Nucleus();
-    void generate_nucleons_A_position(double* ,double* ,double* );
-    void generate_nucleons_B_position(double* ,double* ,double* );
-    void Set_Impact_Parameter(double );
-    void Set_Datas(int ,int,double,double,double,double);
-    double Get_ThetaA();
+    void generate_nucleons_A_position(double* ,double* ,double* );  // function to generate position of nucleus A
+    void generate_nucleons_B_position(double* ,double* ,double* );  // function to generate position of nucleus B
+    void Set_Impact_Parameter(double );                       
+    double Get_ThetaA();                                            // orientation of nucleus during generation
     double Get_PhiA();
     double Get_ThetaB();
     double Get_PhiB();    
@@ -45,10 +44,10 @@ class Nucleus
     int A;             //Nucleus-1
     int B;             //Nucleus-2
     double b;          //Impact Parameter
-    double R;
-    double dlt;
+    double R;          // Wood Saxon (Radius)
+    double dlt;        // Wood Saxon (a)
     double ZETA;
-    double BETA2;
+    double BETA2;      // Wood Saxon (deformation parameter)
     double BETA4;
         
 }; 

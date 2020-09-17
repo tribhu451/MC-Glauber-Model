@@ -17,7 +17,7 @@ int main()
     int A=238;
     int B=238;
     double sigma=4.2;          
-    int Event_No=23;
+    int Event_No=50;
     double Radius=6.81;       
     double dlt=0.54;        
     double BETA2=0.28;
@@ -59,6 +59,7 @@ int main()
     tree1->Branch("Psi_6",&Psi6,"Psi6/D");
 
     
+    // Random number of Impact parameter
     TRandom* t1=new TRandom();
     t1->SetSeed(0);
     long kss=t1->GetSeed();
@@ -66,8 +67,10 @@ int main()
     TF1* f1= new TF1("f1","x",0.0,30.0);
     
     
-    Nucleus NN;
-    nPart_nColl PC;
+    Nucleus* NN = new Nucleus(A,B,Radius,dlt,BETA2,BETA4);
+    nPart_nColl* PC = new nPart_nColl(A,B,sigma,npp,X_hard);
+
+
     double NPart;double NColl;double NCh;double b;
     double Eccen2;double Eccen3;double Eccen4;double Eccen5;double Eccen6;
     double PhiN2;double PhiN3;double PhiN4;double PhiN5;double PhiN6;
@@ -79,8 +82,7 @@ int main()
     for(int j=0;j<=B;j++){XB[j]=0.0;YB[j]=0.0;ZB[j]=0.0;}
 
     
-    NN.Set_Datas(A,B,Radius,dlt,BETA2,BETA4);    //All datas set to generate nucleus accordingly
-    PC.Set_Datas(A,B,sigma,npp,X_hard);          //Setting Datas to calculate NPart, NColl and eccentricity (A,B,Sigma which energy dependant)
+
 
 
     int event=0;
@@ -89,27 +91,27 @@ int main()
 	 
 	 if((event/1000)*1000 == event){cout<<event<<"\n";}
 	 b=f1->GetRandom(0.0,20.0);                     //Randomly Impact parameter set
-	 NN.Set_Impact_Parameter(b);                    //Impact parameter set to generate Nucleons
-	 NN.generate_nucleons_A_position(XA,YA,ZA);     //Nucleons of A generated
-	 double OTA=NN.Get_ThetaA();                    //Orientation Of Nucleus A (Theta)
-	 double OPA=NN.Get_PhiA();                      //---do-----A (Phi)
-	 NN.generate_nucleons_B_position(XB,YB,ZB);     //Nucleons of B generated
-	 double OTB=NN.Get_ThetaB();                    //Orientation Of Nucleus B (Theta)
-	 double OPB=NN.Get_PhiB();                      //---do-----B (Phi)
-	 PC.Calculate_nPart_nColl(XA,YA,XB,YB);         //N_part and N-coll calculated
-	 NColl=PC.Get_Ncoll();                          // Got the Ncoll
-	 NPart= PC.Get_Npart();                         //Got the Npart
-	 NCh=((0.5)*(2.49)*(0.87)*NPart)+((2.49)*(0.13)*NColl);
-	 Eccen2=PC.Get_Eccentricity2();                 //Got Eccentricity
-	 PhiN2=PC.Get_PhiN2();                          //Got Participant plane angle
-	 Eccen3=PC.Get_Eccentricity3();                 //Got Eccentricity
-	 PhiN3=PC.Get_PhiN3();                          //Got Participant plane angle
-	 Eccen4=PC.Get_Eccentricity4();                 //Got Eccentricity
-	 PhiN4=PC.Get_PhiN4();                          //Got Participant plane angle
-	 Eccen5=PC.Get_Eccentricity5();                 //Got Eccentricity
-	 PhiN5=PC.Get_PhiN5();                          //Got Participant plane angle
-	 Eccen6=PC.Get_Eccentricity6();                 //Got Eccentricity
-	 PhiN6=PC.Get_PhiN6();                          //Got Participant plane angle
+	 NN->Set_Impact_Parameter(b);                    //Impact parameter set to generate Nucleons
+	 NN->generate_nucleons_A_position(XA,YA,ZA);     //Nucleons of A generated
+	 double OTA=NN->Get_ThetaA();                    //Orientation Of Nucleus A (Theta)
+	 double OPA=NN->Get_PhiA();                      //---do-----A (Phi)
+	 NN->generate_nucleons_B_position(XB,YB,ZB);     //Nucleons of B generated
+	 double OTB=NN->Get_ThetaB();                    //Orientation Of Nucleus B (Theta)
+	 double OPB=NN->Get_PhiB();                      //---do-----B (Phi)
+	 PC->Calculate_nPart_nColl(XA,YA,XB,YB);         //N_part and N-coll calculated
+	 NColl=PC->Get_Ncoll();                          // Got the Ncoll
+	 NPart= PC->Get_Npart();                         //Got the Npart
+	 NCh=PC->Get_Multiplicity();                     // Got multiplicity
+	 Eccen2=PC->Get_Eccentricity2();                 //Got Eccentricity
+	 PhiN2=PC->Get_PhiN2();                          //Got Participant plane angle
+	 Eccen3=PC->Get_Eccentricity3();                 //Got Eccentricity
+	 PhiN3=PC->Get_PhiN3();                          //Got Participant plane angle
+	 Eccen4=PC->Get_Eccentricity4();                 //Got Eccentricity
+	 PhiN4=PC->Get_PhiN4();                          //Got Participant plane angle
+	 Eccen5=PC->Get_Eccentricity5();                 //Got Eccentricity
+	 PhiN5=PC->Get_PhiN5();                          //Got Participant plane angle
+	 Eccen6=PC->Get_Eccentricity6();                 //Got Eccentricity
+	 PhiN6=PC->Get_PhiN6();                          //Got Participant plane angle
 	 
 	 if(NPart != 0 )
 	     { 
